@@ -13,8 +13,11 @@ while ! mysqladmin ping --host=${DB_HOST} --user=${DB_USERNAME} --password=${DB_
     sleep 10
 done
 
-# Run migrations
-php artisan migrate
+# Create an .env if needed
+php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+# Run migrations (--force is needed as the app is running in prod)
+php artisan migrate --force
 
 echo "Performing permissions fixups"
 chown -R www-data:www-data .
