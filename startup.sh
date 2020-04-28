@@ -25,7 +25,7 @@ find . -type d -print0 | xargs -0 chmod 775
 find . -type f -print0 | xargs -0 chmod 664
 
 # compile js-files
-npm install && npm run development
+npm install && npm run prod
 
 echo "Done. Starting php-fpm"
 php-fpm -F
