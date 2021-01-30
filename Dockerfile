@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-alpine as seat-plus
+FROM php:8.0-fpm-alpine as seat-plus
 
 RUN apk add --no-cache \
     # Install OS level dependencies
@@ -15,7 +15,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apk add --update nodejs npm
 
 # Install PHP Redis
-ENV PHPREDIS_VERSION 5.1.1
+ENV PHPREDIS_VERSION 5.3.2
 RUN mkdir -p /usr/src/php/ext/redis \
     && curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
     && echo 'redis' >> /usr/src/php-available-exts \
