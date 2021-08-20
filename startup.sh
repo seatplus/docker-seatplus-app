@@ -37,7 +37,7 @@ if [ ! "$plugins" == "" ]; then
     composer require ${plugins} --update-no-dev
 
     # Publish assets and migrations and run them.
-    php artisan migrate
+    php artisan migrate --force
     php artisan vendor:publish --tag=web --force
 fi
 
