@@ -19,6 +19,30 @@ php -r "file_exists('.env') || copy('.env.example', '.env');"
 # Run migrations (--force is needed as the app is running in prod)
 php artisan migrate --force
 
+# Plugin support. The docker-compose.yml has the option
+# for setting SEATPLUS_PLUGINS environment variable. Read
+# that here and split by commas.
+echo "Installing and updating plugins..."
+plugins=`echo -n ${SEATPLUS_PLUGINS} | sed 's/,/ /g'`
+
+# If we have any plugins to process, do that.
+if [ ! "$plugins" == "" ]; then
+
+    echo "Installing plugins: ${SEATPLUS_PLUGINS}"
+
+    # Why are we doing it like this?
+    #   ref: https://github.com/composer/composer/issues/1874
+
+    # Require the plugins from the environment variable.
+    composer require ${plugins} --update-no-dev
+
+    # Publish assets and migrations and run them.
+    php artisan migrate
+    php artisan vendor:publish --tag=web --force
+fi
+
+echo "Completed plugins processing"
+
 echo "Performing permissions fixups"
 chown -R www-data:www-data .
 find . -type d -print0 | xargs -0 chmod 775
