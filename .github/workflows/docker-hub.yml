@@ -3,7 +3,7 @@ name: docker-hub
 on:
   push:
     branches:
-      - 'develop'
+      - 'master'
 
 jobs:
   docker:
