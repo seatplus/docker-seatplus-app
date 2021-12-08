@@ -1,5 +1,9 @@
 FROM php:8.0-fpm-alpine as seat-plus
 
+ENV MAX_EXECUTION_TIME 30
+
+RUN echo 'max_execution_time = ${MAX_EXECUTION_TIME}' >> /usr/local/etc/php/conf.d/docker-php-maxexectime.ini;
+
 RUN apk add --no-cache \
     # Install OS level dependencies
     git zip unzip curl \
